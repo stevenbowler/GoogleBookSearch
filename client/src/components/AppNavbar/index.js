@@ -77,7 +77,7 @@ class AppNavbar extends Component {
             // <div> //removed to get sticky navbar with reactstrap https://github.com/reactstrap/reactstrap/issues/1179
             <Navbar color="dark" expand="sm" className="mb-5 sticky-top">
                 {/* <Container> */}
-                <NavbarBrand href="/">MERNshellTwo</NavbarBrand>
+                <NavbarBrand href="/">GoogleBookSearch</NavbarBrand>
                 <NavbarText className="text-warning" placeholder="test">{this.props.name}</ NavbarText>
                 <NavbarToggler color="dark" border="dark" onClick={this.toggle}><img src='hamburger.jpg' alt='Menu' style={{
                     height: "40px",
@@ -93,7 +93,7 @@ class AppNavbar extends Component {
                         {/* <Button float="left" display="inline" onClick={this.unused}>Unused</Button> */}
                         <Button float="left" type="color" display="inline" onClick={this.changeColor}>Color</Button>
                         <NavItem>
-                            <NavLink display="inline" color="white" href="https://github.com/stevenbowler/MERNshellTwo">GitHub</NavLink>
+                            <NavLink display="inline" color="white" href="https://github.com/stevenbowler/GoogleBookSearch">GitHub</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

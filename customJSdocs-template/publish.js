@@ -355,7 +355,7 @@ function linktoExternal(longName, name) {
  */
 function buildNav(members) {
     let globalNav;
-    let nav = '<h2><a href="index.html">MERNshellTwo</a></h2>';
+    let nav = '<h2><a href="index.html">GoogleBookSearch</a></h2>';
     const seen = {};
     const seenTutorials = {};
 
@@ -613,7 +613,7 @@ exports.publish = (taffyData, opts, tutorials) => {
     files = find({ kind: 'file' });
     packages = find({ kind: 'package' });
 
-    generate('MERNshellTwo',
+    generate('GoogleBookSearch',
         packages.concat(
             [{
                 kind: 'mainpage',

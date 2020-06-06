@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: MERNshellTwo</title>
+    <title>JSDoc: GoogleBookSearch</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">MERNshellTwo</h1>
+    <h1 class="page-title">GoogleBookSearch</h1>
 
     
 
@@ -43,9 +43,9 @@
 
 
     <section>
-        <article><h1>MERNshellTwo</h1>
+        <article><h1>GoogleBookSearch</h1>
 <h3>Overview</h3>
-<p>This is a MERN stack app shell repo that can be used as a base for a project.  The purpose is to facilitate development, testing and deployment of a MERN app.  The repo code include the full login auth with validation, password encryption and JSON Web Token, and some user functionality to demonstrate the usage of the bare components provided.</p>
+<p>This is a MERN stack app that allows user to search for their favorite books on Google Book Search.</p>
 <h3>Overview</h3>
 <p>The MERNshell enables the coder/team to focus on their app while providing register/login capability complete with input validation, password encryption and private routes protection with JSON Web Tokens.</p>
 <p>This project has afforded this programmer the opportunity to gain experience in development of full stack MERN apps including various technologies.  The Packages used include: <a href="https://www.npmjs.com/package/@hapi/joi">@hapi/joi</a>, <a href="https://www.npmjs.com/package/bcryptjs">bcryptjs</a>, <a href="https://www.npmjs.com/package/body-parser">body-parser</a>, <a href="https://www.npmjs.com/package/concurrently">concurrently</a>, <a href="https://www.npmjs.com/package/cors">cors</a>, <a href="https://www.npmjs.com/package/dotenv">dotenv</a>, <a href="https://www.npmjs.com/package/express">express</a>, <a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken</a>, <a href="https://www.npmjs.com/package/mongoose">mongoose</a>.</p>
@@ -55,62 +55,12 @@
 <p>Watch the video tutorial by clicking <a href="https://drive.google.com/file/d/1dXeXGydfJTvsE2GS7LnczJzTW0EKO-wS/view?usp=sharing">this link</a>. Then click <a href="https://drive.google.com/file/d/1_4N8HZdfe0iLeP5e1oFAKL5MQbadpiw6/view?usp=sharing">this link</a>.</p>
 </li>
 <li>
-<p>See example MERNshellTwo deployed by <a href="https://mernshelltwo.herokuapp.com/">clicking here</a>.</p>
+<p>Click <a href="https://googlegooglebooksearch.herokuapp.com/">here</a> to see the Google Book Search app.</p>
 </li>
-<li>
-<p>See another example of app fully deployed <a href="https://secure-citadel-76923.herokuapp.com/">clicking here</a>.</p>
-</li>
-<li>
-<p>Open Git Bash enter these commands:</p>
-</li>
-</ol>
-<pre class="prettyprint source"><code>$ mkdir clonedir
-$ cd clonedir
-$ git clone --bare https://github.com/stevenbowler/MERNshellTwo.git
-$ cd MERNshellTwo.git
-</code></pre>
-<ol start="5">
-<li>Go to GitHub and open a new repository.</li>
-<li>Copy the Clone link from the repository (https://github.com/yourGitHubId/newRepository.git).</li>
-<li>Return to Git Bash and MERNshellTwo.git directory.</li>
-<li>Enter the following commands from Git Bash:</li>
-</ol>
-<pre class="prettyprint source"><code>$ git push --mirror https://github.com/yourGitHubId/newRepository.git
-$ cd ..
-$ rm -rf MERNshellTwo.git
-$ cd ..
-$ rm -rf clondir
-</code></pre>
-<ol start="9">
-<li>While in Git Bash, go to the directory where you want to clone down the newRepositoy.git enter this command:</li>
-</ol>
-<pre class="prettyprint source"><code>$ git clone https://github.com/yourGitHubId/newRepository.git
-</code></pre>
-<ol start="10">
-<li>Create a <code>.env</code> file in the directory of the new local repository.</li>
-<li>In <code>.env</code> file enter values for:
-<ol>
-<li><code>MONGODB_URL</code> which is your Mongo DB URL string complete with your authorized Mongo account and password.</li>
-<li><code>TOKEN_SECRET</code> unique random string that you chose, will be used to generate JSON Web Tokens.</li>
-</ol>
-</li>
-<li><code>.env</code> file should look like this:</li>
-</ol>
-<pre class="prettyprint source"><code>MONGODB_URL=your_mongodb_url_with_account_password_collection
-TOKEN_SECRET=your_unique_random_string
-</code></pre>
-<ol start="13">
-<li>From Git Bash prompt local directory (master) enter the following:</li>
-</ol>
-<pre class="prettyprint source"><code>$ npm install
-$ npm start
-</code></pre>
-<ol start="14">
-<li>Check out localhost:3000 should look like <a href="https://mernshelltwo.herokuapp.com/">this</a>.</li>
 </ol>
 <h3>Program Documentation</h3>
-<p>See <a href="https://stevenbowler.github.io/MERNshellTwo/docs/index.html">program documentation</a> in JSDOC format.</p>
-<p>Link to the repository <a href="https://github.com/stevenbowler/MERNshellTwo/">here</a>.</p>
+<p>See <a href="https://stevenbowler.github.io/GoogleBookSearch/docs/index.html">program documentation</a> in JSDOC format.</p>
+<p>Link to the repository <a href="https://github.com/stevenbowler/GoogleBookSearch/">here</a>.</p>
 <p>Requires <a href="https://www.npmjs.com/package/dotenv">dotenv</a> to be installed and a <code>.env</code> file must be stored in the root directory for the app.  The <code>.env</code> file must contain the app owner's MongoDB URL with embedded username and password.  <em><em>To use the same user database in development, testing and production then, it is critically important that the TOKEN_SECRET shown below be exactly the same string.</em></em></p>
 <pre class="prettyprint source"><code>MONGODB_URI=your_mongodb_url_with_embedded_username_password
 TOKEN_SECRET = any_random_string_but_always_use_same_string
@@ -133,13 +83,13 @@ heroku config:set --app=mernshell TOKEN_SECRET=any_random_string_but_always_use_
 </div>
 
 <nav>
-    <h2><a href="index.html">MERNshellTwo</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-client_src_utils_validationNameEmailPassword-emaileValidation.html">emaileValidation</a></li><li><a href="module-client_src_utils_validationNameEmailPassword-nameValidation.html">nameValidation</a></li><li><a href="module-client_src_utils_validationNameEmailPassword-passwordValidation.html">passwordValidation</a></li><li><a href="module-controllers_usersController-create.html">create</a></li><li><a href="module-controllers_usersController-findAll.html">findAll</a></li><li><a href="module-controllers_usersController-findById.html">findById</a></li><li><a href="module-controllers_usersController-remove.html">remove</a></li><li><a href="module-controllers_usersController-update.html">update</a></li><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li><li><a href="module-validation-loginValidation.html">loginValidation</a></li><li><a href="module-validation-registerValidation.html">registerValidation</a></li></ul>
+    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-client_src_utils_validationNameEmailPassword-emaileValidation.html">emaileValidation</a></li><li><a href="module-client_src_utils_validationNameEmailPassword-nameValidation.html">nameValidation</a></li><li><a href="module-client_src_utils_validationNameEmailPassword-passwordValidation.html">passwordValidation</a></li><li><a href="module-controllers_usersController-create.html">create</a></li><li><a href="module-controllers_usersController-findAll.html">findAll</a></li><li><a href="module-controllers_usersController-findById.html">findById</a></li><li><a href="module-controllers_usersController-remove.html">remove</a></li><li><a href="module-controllers_usersController-update.html">update</a></li><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li><li><a href="module-validation-loginValidation.html">loginValidation</a></li><li><a href="module-validation-registerValidation.html">registerValidation</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Jun 06 2020 16:30:08 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Jun 06 2020 17:17:35 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
