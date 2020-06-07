@@ -13,7 +13,7 @@ This project has afforded this programmer the opportunity to gain experience in 
 
 1. Watch the video tutorial by clicking [this link](https://drive.google.com/file/d/1dXeXGydfJTvsE2GS7LnczJzTW0EKO-wS/view?usp=sharing). Then click [this link](https://drive.google.com/file/d/1_4N8HZdfe0iLeP5e1oFAKL5MQbadpiw6/view?usp=sharing).
 
-2. Click [here](https://googlegooglebooksearch.herokuapp.com/) to see the Google Book Search app.
+2. Click [here](https://googlerbooksearch.herokuapp.com/) to see the Google Book Search app.
 
 ### Program Documentation
 
