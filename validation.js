@@ -7,7 +7,7 @@ const Joi = require('@hapi/joi');
 
 /**
  * registration validation with hapi/joi
- * @namespace registerValidation
+ * @name registerValidation
  * @param {*} data 
  */
 const registerValidation = data => {
@@ -22,7 +22,7 @@ const registerValidation = data => {
 
 /**
  * loginValidation with hapi/joi
- * @namespace loginValidation
+ * @name loginValidation
  * @param {*} data 
  */
 const loginValidation = data => {

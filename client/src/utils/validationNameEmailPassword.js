@@ -6,7 +6,7 @@ const Joi = require('@hapi/joi');
 
 
 // nameValidation 
-/**@namespace nameValidation */
+/**@name nameValidation */
 const nameValidation = data => {
     const schema = Joi.object({
         name: Joi.string().min(8).required().trim()
@@ -15,7 +15,7 @@ const nameValidation = data => {
     return schema.validate(data);
 }
 
-/**@namespace emaileValidation */
+/**@name emaileValidation */
 // emailValidation   THIS ONLY ACCEPTS .com and .net EXTENSIONS NEED TO FIND SOLUTION AND FIX validation.js on Server side
 const emailValidation = data => {
     const schema = Joi.object({
@@ -28,7 +28,7 @@ const emailValidation = data => {
 
 // passwordValidation    this extension did not work  .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 // .pattern testing .pattern('^[a-zA-Z0-9]{3,30}$')
-/**@namespace passwordValidation */
+/**@name passwordValidation */
 const passwordValidation = data => {
     const schema = Joi.object({
         password: Joi.string().min(8).required().trim().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))

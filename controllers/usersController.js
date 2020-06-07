@@ -4,7 +4,7 @@
 // Defining methods for the booksController
 /**@module */
 module.exports = {
-    /**@namespace findAll */
+    /**@name findAll */
     findAll: function (req, res) {
         db.User
             .find(req.query)
@@ -12,28 +12,28 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    /**@namespace findById */
+    /**@name findById */
     findById: function (req, res) {
         db.User
             .findById(req.params.id)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    /**@namespace create */
+    /**@name create */
     create: function (req, res) {
         db.User
             .create(req.body)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    /**@namespace update */
+    /**@name update */
     update: function (req, res) {
         db.User
             .findOneAndUpdate({ _id: req.params.id }, req.body)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    /**@namespace remove */
+    /**@name remove */
     remove: function (req, res) {
         db.User
             .findById({ _id: req.params.id })
