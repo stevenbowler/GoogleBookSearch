@@ -65,10 +65,13 @@ class App extends React.Component {
   // LIFECYCLE METHODS and related support functions
 
   componentDidMount() {
-    this.setState({ name: sessionStorage.getItem("name") });
-    this.setState({ token: sessionStorage.getItem("token") });
-    this.setState({ email: sessionStorage.getItem("email") });
-    this.setState({ loggedIn: (sessionStorage.getItem("loggedIn") === "true") ? true : false });
+    if (sessionStorage["name"]) {
+      console.log("app.js componentDidMount: ", this.state.name);
+      this.setState({ name: sessionStorage.getItem("name") });
+      this.setState({ token: sessionStorage.getItem("token") });
+      this.setState({ email: sessionStorage.getItem("email") });
+      this.setState({ loggedIn: (sessionStorage.getItem("loggedIn") === "true") ? true : false });
+    } else console.log("sessionStorage.name doesn't exist");
   }
 
   componentDidUpdate() {
@@ -299,7 +302,7 @@ class App extends React.Component {
             <Route exact path="/books/:id" component={Detail} />
             <Route exact path="/search" render={(props) => <Search {...props} username={this.state.name} token={this.state.token} email={this.state.email} />} />
             <Route exact path="/search/:id" render={(props) => <GoogleDetail {...props} books={this.state.books} authors={this.state.authors} description={this.state.description} />} />
-            <Route exact path="/saved" render={(props) => <Books {...props} saved={true} username={this.state.name} token={this.token} email={this.email} />} />
+            <Route exact path="/saved" render={(props) => <Books {...props} saved={true} username={this.state.name} token={this.state.token} email={this.state.email} />} />
             <Route component={NoMatch} />
           </Switch>
         </div>

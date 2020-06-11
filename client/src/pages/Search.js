@@ -28,7 +28,7 @@ class Search extends Component {
         if (sessionStorage.getItem("googleBooks") === "") return;
         var googleBooks = JSON.parse(sessionStorage.getItem("googleBooks"));
         console.log("componentDidMount sessionStorage googleBooks: ", googleBooks);
-        if (googleBooks.length > 0) {
+        if (typeof googleBooks !== null && typeof googleBooks !== undefined) {
             this.loadBooks(googleBooks);
         }
     }
