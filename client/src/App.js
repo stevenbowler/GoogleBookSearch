@@ -3,6 +3,8 @@
  * @requires react
  * @requires react-router-dom
  * @requires module:/src/pages/Books
+ * @requires module:/src/pages/Search
+ * @requires module:/src/pages/Saved
  * @requires module:/src/pages/Detail
  * @requires module:/src/pages/NoMatch
  * @requires bootstrap
@@ -13,8 +15,11 @@
 */
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Search from "./pages/Search";
+import Saved from "./pages/Saved";
 import Books from "./pages/Books";
 import Detail from "./pages/Detail";
+import GoogleDetail from "./pages/GoogleDetail";
 import NoMatch from "./pages/NoMatch";
 // import Nav from "./components/Nav";  // was in original Week 20 Activity 11
 
@@ -44,9 +49,6 @@ class App extends React.Component {
     this.password = "";
     this.timerOn = false;
     this.state = {
-      height: "60%",                // Box height
-      width: "100%",                 // Box width
-      backgroundColor: "black",   // "#bf5700" Box color, from brand.utexas.edu
       isOpenNavBar: false,
       isOpenLoginModal: false,
       isOpenRegisterModal: false,
@@ -54,19 +56,27 @@ class App extends React.Component {
       name: "Guest...Login",
       loggedIn: false
     };
+    // sessionStorage.setItem("name", this.state.name);
+    // sessionStorage.setItem("token", this.state.token);
+    // sessionStorage.setItem("email", this.state.email);
   }
 
 
   // LIFECYCLE METHODS and related support functions
 
   componentDidMount() {
+    this.setState({ name: sessionStorage.getItem("name") });
+    this.setState({ token: sessionStorage.getItem("token") });
+    this.setState({ email: sessionStorage.getItem("email") });
+    this.setState({ loggedIn: (sessionStorage.getItem("loggedIn") === "true") ? true : false });
   }
 
   componentDidUpdate() {
+    // this.setState({ name: sessionStorage.getItem("name") });
+    // this.setState({ token: sessionStorage.getItem("token") });
+    // this.setState({ email: sessionStorage.getItem("email") });
   }
 
-  componentWillUnmount() {
-  }
 
 
 
@@ -87,8 +97,6 @@ class App extends React.Component {
    * @function handleToggleLeaderBoardModal
    */
   handleToggleLeaderBoardModal = (userBestScore) => {
-    // console.log("handleToggleLeaderBoard userBestScore:", userBestScore);
-    if (userBestScore > this.state.finalScore) this.setState({ finalScore: userBestScore });
     this.setState({ isOpenRegisterModal: false });
     this.setState({ isOpenLoginModal: false });
     this.setState({ isOpenLeaderBoardModal: !this.state.isOpenLeaderBoardModal });
@@ -110,7 +118,7 @@ class App extends React.Component {
   /**
    * handle state.isOpenNavBar toggle for ReactStrap AppNavBar 
    * @function
-  */
+   */
   handleToggleLoginModal = () => {
     this.setState({ isOpenRegisterModal: !this.state.isOpenRegisterModal });
     this.setState({ isOpenLeaderBoardModal: false });
@@ -124,7 +132,7 @@ class App extends React.Component {
    * @property {string} email - email format string
    * @property {string} password - minimum 8 digit password regex alpha-numeric
    * 
-  */
+   */
 
   /**
    * called from LoginRegisterModals component to handle registration request attribute changes
@@ -173,12 +181,16 @@ class App extends React.Component {
         return;
       }
       this.token = tokenHandleLogin;
+      sessionStorage.setItem("token", this.token);
       // console.log("handleLogin this.token = tokenHandleLogin" + this.token);
       this.email = data.email;
+      sessionStorage.setItem("email", this.email);
       this.password = data.password;
+      sessionStorage.setItem("name", nameHandleLogin);
       this.setState({ name: nameHandleLogin }); // will display name on Navbar
       this.handleToggleLoginModal();
       this.setState({ loggedIn: true });
+      sessionStorage.setItem("loggedIn", "true");
     }
     axios
       .post(
@@ -212,8 +224,11 @@ class App extends React.Component {
     this.token = "";
     this.email = "";
     this.password = "";
-    this.setState({ name: "Guest...Login" });
+    sessionStorage.setItem("token", this.token);
+    sessionStorage.setItem("email", this.email);
+    this.setState({ name: "Guest...Login" }, () => sessionStorage.setItem("name", this.state.name));
     this.setState({ loggedIn: false });
+    sessionStorage.setItem("loggedIn", "false");   // TODO this may be needed:
   }
 
 
@@ -264,25 +279,27 @@ class App extends React.Component {
             onCancel={this.handleToggleLoginRegisterModal}
             onRegister={this.handleRegister}
             onLogin={this.handleLogin}
-            name={this.name}
-            email={this.email}
-            password={this.password}
+            name={this.state.name}
+            email={this.state.email}
           />
           <Modal
             loggedIn={this.state.loggedIn}
             onLogout={this.handleLogout}
             isOpenLeaderBoardModal={this.state.isOpenLeaderBoardModal}
             onCancel={this.handleToggleLeaderBoardModal}
-            token={this.token}
-            email={this.email}
+            token={this.state.token}
+            email={this.state.email}
             userName={this.state.name}
-            score={this.state.finalScore}
-            level={this.state.finalLevel}
+          // score={this.state.finalScore}
+          // level={this.state.finalLevel}
           />
           <Switch>
-            <Route exact path="/" render={(props) => <Books {...props} username={this.state.name} token={this.token} email={this.email} />} />
-            <Route exact path="/books" component={Books} />
+            <Route exact path="/" render={(props) => <Books {...props} saved={false} username={this.state.name} token={this.state.token} email={this.state.email} />} />
+            <Route exact path="/books" render={(props) => <Books {...props} saved={false} username={this.state.name} token={this.state.token} email={this.state.email} />} />
             <Route exact path="/books/:id" component={Detail} />
+            <Route exact path="/search" render={(props) => <Search {...props} username={this.state.name} token={this.state.token} email={this.state.email} />} />
+            <Route exact path="/search/:id" render={(props) => <GoogleDetail {...props} books={this.state.books} authors={this.state.authors} description={this.state.description} />} />
+            <Route exact path="/saved" render={(props) => <Books {...props} saved={true} username={this.state.name} token={this.token} email={this.email} />} />
             <Route component={NoMatch} />
           </Switch>
         </div>

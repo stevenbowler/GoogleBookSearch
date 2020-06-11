@@ -23,6 +23,7 @@ module.exports = {
   },
   /**@function create */
   create: function (req, res) {
+    console.log("booksController req.body: ", req.body)
     db.Book
       .create(req.body)
       .then(dbModel => res.json(dbModel))

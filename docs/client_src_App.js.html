@@ -31,6 +31,8 @@
  * @requires react
  * @requires react-router-dom
  * @requires module:/src/pages/Books
+ * @requires module:/src/pages/Search
+ * @requires module:/src/pages/Saved
  * @requires module:/src/pages/Detail
  * @requires module:/src/pages/NoMatch
  * @requires bootstrap
@@ -41,8 +43,11 @@
 */
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Search from "./pages/Search";
+import Saved from "./pages/Saved";
 import Books from "./pages/Books";
 import Detail from "./pages/Detail";
+import GoogleDetail from "./pages/GoogleDetail";
 import NoMatch from "./pages/NoMatch";
 // import Nav from "./components/Nav";  // was in original Week 20 Activity 11
 
@@ -304,13 +309,16 @@ class App extends React.Component {
             token={this.token}
             email={this.email}
             userName={this.state.name}
-            score={this.state.finalScore}
-            level={this.state.finalLevel}
+          // score={this.state.finalScore}
+          // level={this.state.finalLevel}
           />
           &lt;Switch>
             &lt;Route exact path="/" render={(props) => &lt;Books {...props} username={this.state.name} token={this.token} email={this.email} />} />
             &lt;Route exact path="/books" component={Books} />
             &lt;Route exact path="/books/:id" component={Detail} />
+            &lt;Route exact path="/search/:id" render={(props) => &lt;GoogleDetail {...props} books={this.state.books} authors={this.state.authors} description={this.state.description} />} />
+            &lt;Route exact path="/search" render={(props) => &lt;Search {...props} username={this.state.name} token={this.token} email={this.email} />} />
+            &lt;Route exact path="/saved" render={(props) => &lt;Saved {...props} username={this.state.name} token={this.token} email={this.email} />} />
             &lt;Route component={NoMatch} />
           &lt;/Switch>
         &lt;/div>
@@ -331,13 +339,13 @@ export default App;
 </div>
 
 <nav>
-    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul>
+    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_GoogleDetail.html">client/src/pages/GoogleDetail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_pages_Saved.html">client/src/pages/Saved</a></li><li><a href="module-client_src_pages_Search.html">client/src/pages/Search</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul><h3>Classes</h3><ul><li><a href="module-client_src_pages_GoogleDetail-GoogleDetail.html">GoogleDetail</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sun Jun 07 2020 08:30:28 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jun 10 2020 17:47:26 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

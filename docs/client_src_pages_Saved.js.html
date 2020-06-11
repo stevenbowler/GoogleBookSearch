@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/pages/Saved.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/pages/Saved.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//@ts-check
+/**@module*/
+import React, { Component } from "react";
+import DeleteBtn from "../components/DeleteBtn";
+import Jumbotron from "../components/Jumbotron";
+import API from "../utils/API";
+import { Link } from "react-router-dom";
+import { Col, Row, Container } from "../components/Grid";
+import { List, ListItem } from "../components/List";
+// import { Input, TextArea, FormBtn } from "../components/Form";
+
+class Search extends Component {
+    state = {
+        books: [],
+        title: "",
+        authors: "",
+        image: "",
+        link: "",
+        description: ""
+    };
+    // previousName = this.props.username;
+
+    /**@function componentDidMount */
+    componentDidMount() {
+        this.loadBooks();
+        this.previousName = this.props.username;
+    }
+
+    /**@function componentDidUpdate */
+    componentDidUpdate() {
+        if (this.previousName !== this.props.username) {  // if login or logout update books displayed
+            this.loadBooks();
+            this.previousName = this.props.username;
+        }
+    }
+
+    /**@function loadBooks */
+    loadBooks = () => {
+        console.log("username: ", this.props.username);
+        API.getBooks({ username: this.props.username, token: this.props.token, email: this.props.email })
+            .then(res => {
+                this.setState({ books: res.data, title: "", authors: "", image: "", link: "", description: "" })
+            }
+            )
+            .catch(err => console.log(err));
+    };
+
+    /**@function deleteBook */
+    deleteBook = id => {
+        API.deleteBook(id)
+            .then(res => this.loadBooks())
+            .catch(err => console.log(err));
+    };
+
+    /**@function handleInputChange */
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
+
+    /**@function handleFormSubmit */
+    handleFormSubmit = event => {
+        console.log("handleSubmit state.author:", this.state.authors);
+        event.preventDefault();
+        if (this.state.title &amp;&amp; this.state.authors) {
+            API.saveBook({
+                username: this.props.username,
+                title: this.state.title,
+                authors: this.state.authors,
+                image: this.state.image,
+                link: this.state.link,
+                description: this.state.description
+            })
+                .then(res => this.loadBooks())
+                .catch(err => console.log(err));
+        }
+    };
+
+    render() {
+        return (
+            &lt;Container fluid>
+                &lt;Row>
+
+                    &lt;Col size="md-12 sm-12">
+                        &lt;Jumbotron>
+                            &lt;h1>Books On My List&lt;/h1>
+                        &lt;/Jumbotron>
+                        {this.state.books.length ? (
+                            &lt;List>
+                                {this.state.books.map(book => (
+                                    &lt;ListItem key={book._id}>
+                                        &lt;Link to={"/books/" + book._id}>
+                                            &lt;strong>
+                                                {book.title} by {book.author}
+                                            &lt;/strong>
+                                        &lt;/Link>
+                                        &lt;DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                                    &lt;/ListItem>
+                                ))}
+                            &lt;/List>
+                        ) : (
+                                &lt;h3>No Results to Display&lt;/h3>
+                            )}
+                    &lt;/Col>
+                &lt;/Row>
+            &lt;/Container>
+        );
+    }
+}
+
+export default Search;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_GoogleDetail.html">client/src/pages/GoogleDetail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_pages_Saved.html">client/src/pages/Saved</a></li><li><a href="module-client_src_pages_Search.html">client/src/pages/Search</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul><h3>Classes</h3><ul><li><a href="module-client_src_pages_GoogleDetail-GoogleDetail.html">GoogleDetail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jun 10 2020 17:47:27 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
