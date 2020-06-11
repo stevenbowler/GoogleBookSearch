@@ -13,8 +13,10 @@ class Books extends Component {
   state = {
     books: [],
     title: "",
-    author: "",
-    synopsis: ""
+    authors: "",
+    image: "",
+    link: "",
+    description: ""
   };
   // previousName = this.props.username;
 
@@ -34,10 +36,10 @@ class Books extends Component {
 
   /**@function loadBooks */
   loadBooks = () => {
-    console.log("username: ", this.props.username);
+    console.log("loadBooks username: ", this.props.username);
     API.getBooks({ username: this.props.username, token: this.props.token, email: this.props.email })
       .then(res => {
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ books: res.data, title: "", authors: "", image: "", link: "", description: "" })
       }
       )
       .catch(err => console.log(err));
@@ -60,13 +62,16 @@ class Books extends Component {
 
   /**@function handleFormSubmit */
   handleFormSubmit = event => {
+    console.log("handleSubmit state.author:", this.state.authors);
     event.preventDefault();
-    if (this.state.title && this.state.author) {
+    if (this.state.title && this.state.authors) {
       API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
         username: this.props.username,
-        synopsis: this.state.synopsis
+        title: this.state.title,
+        authors: this.state.authors,
+        image: this.state.image,
+        link: this.state.link,
+        description: this.state.description
       })
         .then(res => this.loadBooks())
         .catch(err => console.log(err));
@@ -76,8 +81,9 @@ class Books extends Component {
   render() {
     return (
       <Container fluid>
-        <Row>
-          <Col size="md-6">
+        <Row fluid="">
+          {/* <div hidden={this.props.saved}> */}
+          <Col hidden={this.props.saved} size={this.props.saved ? "md-12" : "md-6"}>
             <Jumbotron>
               <h1>What Books Should I Read?</h1>
             </Jumbotron>
@@ -91,24 +97,37 @@ class Books extends Component {
               <Input
                 value={this.state.author}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                name="authors"
+                placeholder="Author(s) (required)"
+              />
+              <Input
+                value={this.state.link}
+                onChange={this.handleInputChange}
+                name="link"
+                placeholder="Link (Optional)"
+              />
+              <Input
+                value={this.state.image}
+                onChange={this.handleInputChange}
+                name="image"
+                placeholder="Image (Optional)"
               />
               <TextArea
-                value={this.state.synopsis}
+                value={this.state.description}
                 onChange={this.handleInputChange}
                 name="synopsis"
                 placeholder="Synopsis (Optional)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.authors && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Book
               </FormBtn>
             </form>
           </Col>
-          <Col size="md-6 sm-12">
+          {/* </div> */}
+          <Col hidden={false} size={this.props.saved ? "md-12 sm-12" : "md-6 sm-12"}>
             <Jumbotron>
               <h1>Books On My List</h1>
             </Jumbotron>
@@ -118,7 +137,7 @@ class Books extends Component {
                   <ListItem key={book._id}>
                     <Link to={"/books/" + book._id}>
                       <strong>
-                        {book.title} by {book.author}
+                        {book.title} by {book.authors}
                       </strong>
                     </Link>
                     <DeleteBtn onClick={() => this.deleteBook(book._id)} />

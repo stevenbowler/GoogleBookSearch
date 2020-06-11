@@ -31,6 +31,8 @@
  * @requires react
  * @requires react-router-dom
  * @requires module:/src/pages/Books
+ * @requires module:/src/pages/Search
+ * @requires module:/src/pages/Saved
  * @requires module:/src/pages/Detail
  * @requires module:/src/pages/NoMatch
  * @requires bootstrap
@@ -41,8 +43,11 @@
 */
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Search from "./pages/Search";
+import Saved from "./pages/Saved";
 import Books from "./pages/Books";
 import Detail from "./pages/Detail";
+import GoogleDetail from "./pages/GoogleDetail";
 import NoMatch from "./pages/NoMatch";
 // import Nav from "./components/Nav";  // was in original Week 20 Activity 11
 
@@ -72,9 +77,6 @@ class App extends React.Component {
     this.password = "";
     this.timerOn = false;
     this.state = {
-      height: "60%",                // Box height
-      width: "100%",                 // Box width
-      backgroundColor: "black",   // "#bf5700" Box color, from brand.utexas.edu
       isOpenNavBar: false,
       isOpenLoginModal: false,
       isOpenRegisterModal: false,
@@ -82,19 +84,27 @@ class App extends React.Component {
       name: "Guest...Login",
       loggedIn: false
     };
+    // sessionStorage.setItem("name", this.state.name);
+    // sessionStorage.setItem("token", this.state.token);
+    // sessionStorage.setItem("email", this.state.email);
   }
 
 
   // LIFECYCLE METHODS and related support functions
 
   componentDidMount() {
+    this.setState({ name: sessionStorage.getItem("name") });
+    this.setState({ token: sessionStorage.getItem("token") });
+    this.setState({ email: sessionStorage.getItem("email") });
+    this.setState({ loggedIn: (sessionStorage.getItem("loggedIn") === "true") ? true : false });
   }
 
   componentDidUpdate() {
+    // this.setState({ name: sessionStorage.getItem("name") });
+    // this.setState({ token: sessionStorage.getItem("token") });
+    // this.setState({ email: sessionStorage.getItem("email") });
   }
 
-  componentWillUnmount() {
-  }
 
 
 
@@ -115,8 +125,6 @@ class App extends React.Component {
    * @function handleToggleLeaderBoardModal
    */
   handleToggleLeaderBoardModal = (userBestScore) => {
-    // console.log("handleToggleLeaderBoard userBestScore:", userBestScore);
-    if (userBestScore > this.state.finalScore) this.setState({ finalScore: userBestScore });
     this.setState({ isOpenRegisterModal: false });
     this.setState({ isOpenLoginModal: false });
     this.setState({ isOpenLeaderBoardModal: !this.state.isOpenLeaderBoardModal });
@@ -138,7 +146,7 @@ class App extends React.Component {
   /**
    * handle state.isOpenNavBar toggle for ReactStrap AppNavBar 
    * @function
-  */
+   */
   handleToggleLoginModal = () => {
     this.setState({ isOpenRegisterModal: !this.state.isOpenRegisterModal });
     this.setState({ isOpenLeaderBoardModal: false });
@@ -152,7 +160,7 @@ class App extends React.Component {
    * @property {string} email - email format string
    * @property {string} password - minimum 8 digit password regex alpha-numeric
    * 
-  */
+   */
 
   /**
    * called from LoginRegisterModals component to handle registration request attribute changes
@@ -201,12 +209,16 @@ class App extends React.Component {
         return;
       }
       this.token = tokenHandleLogin;
+      sessionStorage.setItem("token", this.token);
       // console.log("handleLogin this.token = tokenHandleLogin" + this.token);
       this.email = data.email;
+      sessionStorage.setItem("email", this.email);
       this.password = data.password;
+      sessionStorage.setItem("name", nameHandleLogin);
       this.setState({ name: nameHandleLogin }); // will display name on Navbar
       this.handleToggleLoginModal();
       this.setState({ loggedIn: true });
+      sessionStorage.setItem("loggedIn", "true");
     }
     axios
       .post(
@@ -240,8 +252,11 @@ class App extends React.Component {
     this.token = "";
     this.email = "";
     this.password = "";
-    this.setState({ name: "Guest...Login" });
+    sessionStorage.setItem("token", this.token);
+    sessionStorage.setItem("email", this.email);
+    this.setState({ name: "Guest...Login" }, () => sessionStorage.setItem("name", this.state.name));
     this.setState({ loggedIn: false });
+    sessionStorage.setItem("loggedIn", "false");   // TODO this may be needed:
   }
 
 
@@ -292,25 +307,27 @@ class App extends React.Component {
             onCancel={this.handleToggleLoginRegisterModal}
             onRegister={this.handleRegister}
             onLogin={this.handleLogin}
-            name={this.name}
-            email={this.email}
-            password={this.password}
+            name={this.state.name}
+            email={this.state.email}
           />
           &lt;Modal
             loggedIn={this.state.loggedIn}
             onLogout={this.handleLogout}
             isOpenLeaderBoardModal={this.state.isOpenLeaderBoardModal}
             onCancel={this.handleToggleLeaderBoardModal}
-            token={this.token}
-            email={this.email}
+            token={this.state.token}
+            email={this.state.email}
             userName={this.state.name}
-            score={this.state.finalScore}
-            level={this.state.finalLevel}
+          // score={this.state.finalScore}
+          // level={this.state.finalLevel}
           />
           &lt;Switch>
-            &lt;Route exact path="/" render={(props) => &lt;Books {...props} username={this.state.name} token={this.token} email={this.email} />} />
-            &lt;Route exact path="/books" component={Books} />
+            &lt;Route exact path="/" render={(props) => &lt;Books {...props} saved={false} username={this.state.name} token={this.state.token} email={this.state.email} />} />
+            &lt;Route exact path="/books" render={(props) => &lt;Books {...props} saved={false} username={this.state.name} token={this.state.token} email={this.state.email} />} />
             &lt;Route exact path="/books/:id" component={Detail} />
+            &lt;Route exact path="/search" render={(props) => &lt;Search {...props} username={this.state.name} token={this.state.token} email={this.state.email} />} />
+            &lt;Route exact path="/search/:id" render={(props) => &lt;GoogleDetail {...props} books={this.state.books} authors={this.state.authors} description={this.state.description} />} />
+            &lt;Route exact path="/saved" render={(props) => &lt;Books {...props} saved={true} username={this.state.name} token={this.token} email={this.email} />} />
             &lt;Route component={NoMatch} />
           &lt;/Switch>
         &lt;/div>
@@ -331,13 +348,13 @@ export default App;
 </div>
 
 <nav>
-    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul>
+    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AddBtn_index.html">client/src/components/AddBtn/index</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_GoogleDetail.html">client/src/pages/GoogleDetail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_pages_Saved.html">client/src/pages/Saved</a></li><li><a href="module-client_src_pages_Search.html">client/src/pages/Search</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul><h3>Classes</h3><ul><li><a href="module-client_src_pages_GoogleDetail-GoogleDetail.html">GoogleDetail</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sun Jun 07 2020 08:30:28 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 08:09:34 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

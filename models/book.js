@@ -6,13 +6,23 @@ const Schema = mongoose.Schema;
 /**@namespace bookSchema */
 const bookSchema = new Schema({
   /**@name name*/
-  title: { type: String, required: true },
-  /**@name author*/
-  author: { type: String, required: true },
-  /**@name username*/
   username: { type: String, required: true },
+
+  /**@name name*/
+  title: { type: String, required: true },
+
+  /**@name authors*/
+  authors: { type: String, required: true },
+
+  /**@name image*/
+  image: { type: String, required: false },
+
+  /**@name link*/
+  link: { type: String, required: false },
+
   /**@name synopsis*/
-  synopsis: String,
+  description: String,
+
   /**@name date*/
   date: { type: Date, default: Date.now }
 });

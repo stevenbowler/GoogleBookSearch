@@ -18,7 +18,7 @@ const verify = require('../../privateRoutesAuth');
  */
 router.use(function (req, res, next) {
   var username = req.query.name
-  console.log("username: ", username)
+  console.log("routes books.js middleware username: ", username)
   console.log('Books Router Logger: %s %s %s', req.method, req.url, req.path)
   next()
 });

@@ -20,6 +20,22 @@ export default {
   },
 
   /**
+   * Gets books from Google Books using title and authors keys for the search
+   * https://www.googleapis.com/books/v1/volumes?q={search terms}
+   * https://www.googleapis.com/books/v1/volumes?q=hockey+gretzky&callback=handleResponse
+   * @function getGoogleBooks 
+   * @param {*} req
+   * */
+  getGoogleBooks: function (req) {
+    console.log("googleSearch: req: ", req);
+    var url = `https://www.googleapis.com/books/v1/volumes?q=${req.title}`;
+    // var url = `https://www.googleapis.com/books/v1/volumes?q=${req.title}+${req.authors}&callback=handleResponse&key=${process.env.GOOGLE_API_KEY}`;
+    // if (req.username !== "Guest...Login") url = `/api/books/protected?name=${user.username}&email=${user.email}`; // used for protected routes in books.js
+    var token = req.token;
+    return axios.get(url);
+  },
+
+  /**
    * Gets the book with the given id
    * @function getBook
    * @param {*} id*/
@@ -42,6 +58,7 @@ export default {
    * @param {*} bookData 
    */
   saveBook: function (bookData) {
+    console.log("API.saveBook: bookData ", bookData);
     return axios.post("/api/books", bookData);
   }
 };

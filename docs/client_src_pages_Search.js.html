@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/pages/Search.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/pages/Search.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//@ts-check
+/**@module*/
+import React, { Component } from "react";
+import AddBtn from "../components/AddBtn";
+import Jumbotron from "../components/Jumbotron";
+import API from "../utils/API";
+import { Link, withRouter } from "react-router-dom";
+import { Col, Row, Container } from "../components/Grid";
+import { List, ListItem, GoogleListItem } from "../components/List";
+import { Input, TextArea, FormBtn } from "../components/Form";
+
+class Search extends Component {
+
+    state = {
+        books: [],
+        title: "",
+        authors: "",
+        image: "",
+        link: "",
+        description: ""
+    };
+
+    /**
+     * Set previousName to be used to determine if there was a state change
+     * @function componentDidMount */
+    componentDidMount() {
+        this.previousName = this.props.username;
+        if (sessionStorage.getItem("googleBooks") === "") return;
+        var googleBooks = JSON.parse(sessionStorage.getItem("googleBooks"));
+        console.log("componentDidMount sessionStorage googleBooks: ", googleBooks);
+        if (googleBooks.length > 0) {
+            this.loadBooks(googleBooks);
+        }
+    }
+
+
+    /**@function componentDidUpdate */
+    componentDidUpdate() {
+        // if (this.previousName !== this.props.username) {  // if login or logout update books displayed
+        // this.loadBooks(JSON.parse(sessionStorage.getItem("googleBooks")));
+        // this.previousName = this.props.username;
+        // }
+    }
+
+
+    /**
+     * Parse the Google books format array into simpler array (remove the volumeInfo key)
+     * @function googleBooksParse 
+     * @param {Array&lt;object>} googleBooks
+     * */
+    googleBooksParse = (googleBooks) => {
+        return googleBooks.map(book => ({
+            key: book.id,
+            _id: book.id,
+            title: book.volumeInfo.title,
+            authors: book.volumeInfo.authors,
+            link: book.volumeInfo.previewLink,
+            image: book.volumeInfo.imageLinks.thumbnail,
+            description: book.volumeInfo.description
+        }));
+    }
+
+
+    /**
+     * Load books from the Google Books search
+     * Called from {@link handleFormSubmit}, {@link deleteBook}, {@link componentDidUpdate}
+     * @function loadBooks 
+     * @param {*} googleBooks
+     * */
+    loadBooks = (googleBooks) => {
+        console.log(typeof googleBooks);
+        if (!googleBooks) return;
+        // if (!res) return;
+        // var googleBooks = res.data.items;
+        var googleBooksArray = this.googleBooksParse(googleBooks);
+        this.setState({ books: googleBooksArray, title: "", authors: "", image: "", link: "", description: "" });
+    };
+
+
+    /**@function deleteBook */   // TODO this takes a book from the found list and adds to personal list, need more params
+    addGoogleBook = bookData => {
+        console.log("bookData: ", bookData);
+        API.saveBook(bookData)
+            // .then(res => this.loadBooks())
+            .then(res => console.log("addGoogleBook returned from user database: ", res))
+            .catch(err => console.log(err));
+    };
+
+
+    /**@function handleInputChange */
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
+
+
+    /**@function handleFormSubmit */
+    handleFormSubmit = event => {
+        // console.log("handleSubmit state.author:", this.state.title);
+        event.preventDefault();
+        // if (this.state.title &amp;&amp; this.state.authors) {
+        if (this.state.title) {
+            API.getGoogleBooks({
+                username: this.props.username,
+                title: this.state.title,
+                authors: this.state.authors,
+                image: this.state.image,
+                link: this.state.link,
+                description: this.state.description
+            })
+                .then(res => {
+                    var googleBooks = res.data.items;
+                    sessionStorage.setItem("googleBooks", JSON.stringify(res.data.items));     // set for return to page see componentDidUpdate
+                    // var googleBooks = this.googleBooksParse(res.data.items);
+                    console.log("handleSubmit googleBooks: ", googleBooks);
+                    this.loadBooks(googleBooks);
+                })
+                .catch(err => console.log(err));
+        }
+    };
+
+    render() {
+        return (
+            &lt;Container fluid>
+                &lt;Row fluid="">
+                    &lt;Col hidden={false} size="md-6">
+                        &lt;Jumbotron>
+                            &lt;h1>Search Google Books&lt;/h1>
+                        &lt;/Jumbotron>
+                        &lt;form>
+                            &lt;Input
+                                value={this.state.title}
+                                onChange={this.handleInputChange}
+                                name="title"
+                                placeholder="Enter Search Here (required)"
+                            />
+                            &lt;FormBtn
+                                // disabled={!(this.state.authors &amp;&amp; this.state.title)}
+                                disabled={!(this.state.title)}
+                                onClick={this.handleFormSubmit}
+                            >
+                                Submit Book&lt;/FormBtn>
+
+                        &lt;/form>
+                    &lt;/Col>
+                    &lt;Col hidden={false} size="md-6 sm-12">
+                        &lt;Jumbotron>
+                            &lt;h1>Found On Google Books&lt;/h1>
+                        &lt;/Jumbotron>
+                        {this.state.books.length ? (
+                            &lt;List>
+                                {this.state.books.map(book => (
+                                    &lt;GoogleListItem key={book._id}>
+                                        &lt;Link key={book._id}
+                                            to={{
+                                                pathname: `/search/${book._id}`,
+                                                state: { authors: book.authors, title: book.title, description: book.description }
+                                            }}>
+                                            &lt;strong>
+                                                {book.title} by {book.authors}
+                                            &lt;/strong>
+                                        &lt;/Link>
+                                        &lt;AddBtn onClick={() => this.addGoogleBook({
+                                            username: this.props.username,
+                                            title: book.title,
+                                            authors: book.authors[0],
+                                            image: book.image,
+                                            link: book.link,
+                                            description: book.description
+                                        })} />
+                                    &lt;/GoogleListItem>
+                                ))}
+                            &lt;/List>
+                        ) : (
+                                &lt;h3 style={{ color: "white" }}>No Results to Display...yet&lt;/h3>
+                            )}
+                    &lt;/Col>
+                &lt;/Row>
+            &lt;/Container>
+        );
+    }
+}
+
+export default Search;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">GoogleBookSearch</a></h2><h3>Modules</h3><ul><li><a href="module-client_src_App.html">client/src/App</a></li><li><a href="module-client_src_components_AddBtn_index.html">client/src/components/AddBtn/index</a></li><li><a href="module-client_src_components_AppNavbar_index.html">client/src/components/AppNavbar/index</a></li><li><a href="module-client_src_components_DeleteBtn_index.html">client/src/components/DeleteBtn/index</a></li><li><a href="module-client_src_components_ExtraModal_index.html">client/src/components/ExtraModal/index</a></li><li><a href="module-client_src_components_Form_index.html">client/src/components/Form/index</a></li><li><a href="module-client_src_components_Jumbotron_index.html">client/src/components/Jumbotron/index</a></li><li><a href="module-client_src_components_List_index.html">client/src/components/List/index</a></li><li><a href="module-client_src_components_LoginRegisterModals_index.html">client/src/components/LoginRegisterModals/index</a></li><li><a href="module-client_src_pages_Books.html">client/src/pages/Books</a></li><li><a href="module-client_src_pages_Detail.html">client/src/pages/Detail</a></li><li><a href="module-client_src_pages_GoogleDetail.html">client/src/pages/GoogleDetail</a></li><li><a href="module-client_src_pages_NoMatch.html">client/src/pages/NoMatch</a></li><li><a href="module-client_src_pages_Saved.html">client/src/pages/Saved</a></li><li><a href="module-client_src_pages_Search.html">client/src/pages/Search</a></li><li><a href="module-client_src_utils_API.html">client/src/utils/API</a></li><li><a href="module-client_src_utils_validationNameEmailPassword.html">client/src/utils/validationNameEmailPassword</a></li><li><a href="module-controllers_booksController.html">controllers/booksController</a></li><li><a href="module-controllers_usersController.html">controllers/usersController</a></li><li><a href="module-models_book.html">models/book</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-privateRoutesAuth.html">privateRoutesAuth</a></li><li><a href="module-routes_api_books.html">routes/api/books</a></li><li><a href="module-routes_api_users.html">routes/api/users</a></li><li><a href="module-server.html">server</a></li><li><a href="module-validation.html">validation</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-models_book-bookSchema.html">bookSchema</a></li><li><a href="module-models_user-UserSchema.html">UserSchema</a></li></ul><h3>Classes</h3><ul><li><a href="module-client_src_pages_GoogleDetail-GoogleDetail.html">GoogleDetail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 08:09:34 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
