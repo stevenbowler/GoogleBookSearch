@@ -3,13 +3,15 @@
  * @requires react
 */
 import React from "react";
+import "./style.css";
+
 
 // This file exports the Input, TextArea, and FormBtn components
 
 export function Input(props) {
   return (
     <div className="form-group">
-      <input className="form-control" {...props} />
+      <input className="form-control" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})` }} />
     </div>
   );
 }
@@ -17,7 +19,7 @@ export function Input(props) {
 export function TextArea(props) {
   return (
     <div className="form-group">
-      <textarea className="form-control" rows="5" {...props} />
+      <textarea className="form-control" rows="5" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})` }} />
     </div>
   );
 }

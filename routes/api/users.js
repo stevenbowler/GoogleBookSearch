@@ -66,12 +66,15 @@ router.post('/register', async (req, res) => {
  * @returns {object}
  */
 router.post('/login', async (req, res) => {
+    console.log("login route: req.body.email ", req.body.email);
+
     // validate login data before logging-in user
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     // check if email already in database
     const user = await User.findOne({ email: req.body.email });
+    console.log("login route user from User.findOne:", user);
     if (!user) return res.status(400).send({ "statusCode": 400, "statusMessage": "email does not exist" });
 
     // check if password is correct
@@ -80,7 +83,7 @@ router.post('/login', async (req, res) => {
 
     //create and assign a token
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: 3600 });
-    // console.log("login route token: " + token + " user: " + user);
+    console.log("login route token: " + token + " user: " + user);
     res.header('auth-token', token).send({ "token": token, "user": user });
 
 });
