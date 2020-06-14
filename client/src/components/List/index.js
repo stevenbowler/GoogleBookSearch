@@ -8,18 +8,18 @@ import "./style.css";
 /**@function List */
 export function List({ children }) {
   return (
-    <div className="list-overflow-container">
-      <ul className="list-group">{children}</ul>
+    <div className="list-div" >
+      <ul className="list-group" style={{ color: 'black' }}>{children}</ul>
     </div>
   );
 }
 
 /**@function ListItem */
 export function ListItem({ children }) {
-  return <li className="list-group-item">{children}</li>;
+  return <li className="list-group-item" style={{ color: `rgb(${132}, ${31}, ${39})`, backgroundColor: `rgb(${132}, ${31}, ${39})` }}>{children}</li>;
 }
 
 /**@function GoogleListItem */
 export function GoogleListItem({ children }) {
-  return <li className="list-group-item">{children}</li>;
+  return <li className="list-group-item" style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, color: 'black' }}>{children}</li>;
 }

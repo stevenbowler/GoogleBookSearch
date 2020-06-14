@@ -1,4 +1,6 @@
 import React from "react";
+import "./style.css";
+
 
 // Exporting the Container, Row, and Col components from this file
 
@@ -22,6 +24,7 @@ export function Col({ size, hidden, children }) {
         .map(size => "col-" + size)
         .join(" ")}
       hidden={hidden}
+      style={{ color: "black" }}
     // display={hidden ? "none" : "inline"}
     >
       {children}

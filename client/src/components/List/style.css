@@ -1,3 +1,17 @@
+li a {
+/* background-color: black; */
+color: black;
+text-decoration: none;
+}
+
+li a:hover{
+  color: teal;
+}
+
+.list-div{
+color:black;
+}
+
 .list-overflow-container {
   max-height: 545px;
   border: 1px #DDDDDD solid;
@@ -21,7 +35,8 @@
 }
 
 .list-overflow-container li a {
-  color: #2A878C;
+  /* color: #2A878C; */
+  color: black;
 }
 
 .list-overflow-container li:first-child {

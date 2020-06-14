@@ -99,7 +99,7 @@ class App extends React.Component {
    * handle state.isOpenNavBar toggle for ReactStrap AppNavBar 
    * @function handleToggleLeaderBoardModal
    */
-  handleToggleLeaderBoardModal = (userBestScore) => {
+  handleToggleLeaderBoardModal = () => {
     this.setState({ isOpenRegisterModal: false });
     this.setState({ isOpenLoginModal: false });
     this.setState({ isOpenLeaderBoardModal: !this.state.isOpenLeaderBoardModal });
@@ -173,21 +173,27 @@ class App extends React.Component {
    * @param {data} data
    */
   handleLogin = (data) => {
+    console.log("APp.js handleLogin data:", data);
     var tokenHandleLogin = "";
     var nameHandleLogin = "";
     var loginError = "";
     const finishLogin = () => {
       if (loginError) {
+        console.log("Made it to error report handleLogin finishLogin");
         this.setState({ name: "wrong email or pswd" }); // will display error message on Navbar
-        // console.log(this.name);
         this.handleToggleLoginModal();
         return;
       }
+      console.log("finishLogin nameHandleLogin: ", nameHandleLogin);
       this.token = tokenHandleLogin;
-      sessionStorage.setItem("token", this.token);
+      sessionStorage.setItem("token", tokenHandleLogin);
+      this.setState({ token: tokenHandleLogin });
+
       // console.log("handleLogin this.token = tokenHandleLogin" + this.token);
       this.email = data.email;
       sessionStorage.setItem("email", this.email);
+      this.setState({ email: this.email });
+
       this.password = data.password;
       sessionStorage.setItem("name", nameHandleLogin);
       this.setState({ name: nameHandleLogin }); // will display name on Navbar
