@@ -1,5 +1,14 @@
-input::placeholder {
-    color: black;
+input {
+  color: black;
+}
+
+#input1,#input2 {
+  color:black;
+}
+
+#input1::placeholder,#input2::placeholder {
+    color:slategray;
+    /* border: 1px solid black; */
     text-decoration: none;
     }
 /*     
