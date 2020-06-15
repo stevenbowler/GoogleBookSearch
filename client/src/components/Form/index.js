@@ -11,7 +11,7 @@ import "./style.css";
 export function Input(props) {
   return (
     <div className="form-group">
-      <input className="form-control" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})` }} />
+      <input className="form-control" id="input1" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, border: "1px solid black" }} />
     </div>
   );
 }
@@ -19,7 +19,7 @@ export function Input(props) {
 export function TextArea(props) {
   return (
     <div className="form-group">
-      <textarea className="form-control" rows="5" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})` }} />
+      <textarea className="form-control" id="input2" rows="5" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, border: "1px solid black" }} />
     </div>
   );
 }

@@ -85,7 +85,7 @@ class Books extends Component {
           {/* <div hidden={this.props.saved}> */}
           <Col hidden={this.props.saved} size={this.props.saved ? "md-12" : "md-6"}>
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>Save a Book to Your List?</h1>
             </Jumbotron>
             <form>
               <Input
