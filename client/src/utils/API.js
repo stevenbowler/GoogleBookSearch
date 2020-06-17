@@ -29,9 +29,6 @@ export default {
   getGoogleBooks: function (req) {
     console.log("googleSearch: req: ", req);
     var url = `https://www.googleapis.com/books/v1/volumes?q=${req.title}`;
-    // var url = `https://www.googleapis.com/books/v1/volumes?q=${req.title}+${req.authors}&callback=handleResponse&key=${process.env.GOOGLE_API_KEY}`;
-    // if (req.username !== "Guest...Login") url = `/api/books/protected?name=${user.username}&email=${user.email}`; // used for protected routes in books.js
-    var token = req.token;
     return axios.get(url);
   },
 

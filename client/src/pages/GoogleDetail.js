@@ -4,16 +4,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
-import API from "../utils/API";
 
 /**
  * Called from {@link module:client/src/pages/Search.js}, 
  * @class
  */
 class GoogleDetail extends Component {
-    constructor(props) {
-        super(props);
-    }
     /**  
      * Called from {@link module:client/src/pages/Search.js}, 
      * see state variable setting to <Link to={pathname:"/search/:id", state:{authors: book.authors}}}>
@@ -45,7 +41,7 @@ class GoogleDetail extends Component {
                     <Col size="md-10 md-offset-1">
                         <article style={{ color: "white" }}>
                             <h1 style={{ color: "white" }}>Description</h1>
-                            <a href={this.state.book.link} target="_blank">See Book Details on Google Books</a>
+                            <a href={this.state.book.link} target="_blank" rel="noopener noreferrer">See Book Details on Google Books</a>
                             <p>
                                 {this.state.book.description}
                             </p>

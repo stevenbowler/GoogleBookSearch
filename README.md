@@ -7,7 +7,7 @@ Search For and Save Your Books With the Google Book Search.
 
 The Google Book Search app enables the user to search for books based on any topic, title, author or combination thereof, using `Google Books API Search`.  Users can search, save, recall and delete their favorite books either as their own notes or as a specific book found by the Google Books API search.
 
-This program was developed by Steven Bowler for the purpose of gaining experience developing a full-stack app employing best-practices for executing the [Model-View-Control](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (MVC) software development pattern.  Additionally, the project provides this programmer the opportunity develop skills in creating and deploying a functional full-stack app on [Heroku](https://www.heroku.com), integrating [ExpressJS](https://www.npmjs.com/package/expressjs),[Mongoose](https://www.npmjs.com/package/mongoose) and [Axios](https://www.npmjs.com/package/axios), [@hapi/joi](https://www.npmjs.com/package/@hapi/joi), [bcryptjs](https://www.npmjs.com/package/bcryptjs), [body-parser](https://www.npmjs.com/package/body-parser), [concurrently](https://www.npmjs.com/package/concurrently), [cors](https://www.npmjs.com/package/cors), [dotenv](https://www.npmjs.com/package/dotenv), [express](https://www.npmjs.com/package/express), [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken). _*`Enjoy`*_.
+This program was developed by Steven Bowler for the purpose of gaining experience developing a full-stack app employing best-practices for executing the [Model-View-Control](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (MVC) software development pattern.  Additionally, the project provides this programmer the opportunity develop skills in creating and deploying a functional full-stack app on [Heroku](https://www.heroku.com), integrating [SocketIO](https://www.npmjs.com/package/socket.io),[ExpressJS](https://www.npmjs.com/package/expressjs),[Mongoose](https://www.npmjs.com/package/mongoose) and [Axios](https://www.npmjs.com/package/axios), [@hapi/joi](https://www.npmjs.com/package/@hapi/joi), [bcryptjs](https://www.npmjs.com/package/bcryptjs), [body-parser](https://www.npmjs.com/package/body-parser), [concurrently](https://www.npmjs.com/package/concurrently), [cors](https://www.npmjs.com/package/cors), [dotenv](https://www.npmjs.com/package/dotenv), [express](https://www.npmjs.com/package/express), [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken). _*`Enjoy`*_.
 
 
 This project has afforded this programmer the opportunity to gain experience in development of full stack MERN apps including various technologies.  The Packages used include: , [mongoose](https://www.npmjs.com/package/mongoose).
@@ -17,6 +17,8 @@ This project has afforded this programmer the opportunity to gain experience in 
 1. Watch the video tutorial by clicking [this link](https://drive.google.com/file/d/1pMIpAHzZumuAqCgBHyNImCm_faikkTYn/view). 
 
 2. Click [here](https://googlerbooksearch.herokuapp.com/) to see the Google Book Search app.
+
+Program uses Socket.io to message each of the sessions the total number of users currently on-line as either Guest or logged-in as Member and show the number of users on-line on the Navbar.  The number of users shown is updated with each user action, so if a user drops their session, the Navbar will update once each user of the other sessions performs an update in the form of Search, show Saved, Save, Login or Logout.  
 
 ### Program Documentation
 

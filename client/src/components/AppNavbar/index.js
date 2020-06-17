@@ -20,6 +20,27 @@ import {
 
 
 class AppNavbar extends Component {
+    constructor(props) {
+        super(props);
+        this.userCount = sessionStorage.getItem("userCount");
+    };
+
+    previousUserCount = "0";
+    userCount = sessionStorage.getItem("userCount");
+    forceupdate;
+
+    componentDidMount() {
+        this.userCount = sessionStorage.getItem("userCount");
+        this.forceUpdate();
+    }
+    componentDidUpdate() {
+        // if (this.previousUserCount !== this.props.userCount) {
+        //     this.previousUserCount = this.props.userCount;
+        //     this.forceUpdate();
+        // }
+        this.userCount = sessionStorage.getItem("userCount");
+        // console.log("navbar this.userCount", this.userCount);
+    }
     /**
      * Toggle the navbar modal variable
      * @function toggleModal */
@@ -80,7 +101,7 @@ class AppNavbar extends Component {
                 <NavbarBrand href="/">GoogleBookSearch</NavbarBrand>
                 <Button float="left" color="dark" display="inline" href="/search">Search</Button>
                 <Button float="left" color="dark" display="inline" href="/saved">Saved</Button>
-                <NavbarText className="text-warning" placeholder="test">{this.props.name}</ NavbarText>
+                <NavbarText className="text-warning" placeholder="test">{this.props.name} with {this.userCount} users online</ NavbarText>
                 <NavbarToggler color="dark" border="dark" onClick={this.toggle}><img src='hamburger.jpg' alt='Menu' style={{
                     height: "40px",
                     width: "40px"

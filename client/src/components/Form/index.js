@@ -11,7 +11,7 @@ import "./style.css";
 export function Input(props) {
   return (
     <div className="form-group">
-      <input className="form-control" id="input1" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, border: "1px solid black" }} />
+      <input className="form-control inputStyle" {...props} style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, border: "1px solid black" }} />
     </div>
   );
 }
