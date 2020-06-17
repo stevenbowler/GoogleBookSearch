@@ -35,6 +35,7 @@ class Detail extends Component {
           <Col size="md-10 md-offset-1">
             <article style={{ color: "white" }}>
               <h1>Description</h1>
+              <a href={this.state.book.link} target="_blank">See Book Details on Google Books</a>
               <p>
                 {this.state.book.description}
               </p>
@@ -43,7 +44,7 @@ class Detail extends Component {
         </Row>
         <Row>
           <Col size="md-2">
-            <Link to="/">← Back to Titles and Authors</Link>
+            <Link to="/">← Back to Home Page</Link>
           </Col>
         </Row>
       </Container>
