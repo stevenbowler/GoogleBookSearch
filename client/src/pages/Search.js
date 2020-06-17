@@ -49,13 +49,14 @@ class Search extends Component {
      * @param {Array<object>} googleBooks
      * */
     googleBooksParse = (googleBooks) => {
+        console.log("googleBooks googleBooksParse: ", googleBooks);
         return googleBooks.map(book => ({
             key: book.id,
             _id: book.id,
             title: book.volumeInfo.title,
             authors: book.volumeInfo.authors,
             link: book.volumeInfo.previewLink,
-            image: book.volumeInfo.imageLinks.thumbnail,
+            // image: book.volumeInfo.imageLinks.thumbnail,
             description: book.volumeInfo.description
         }));
     }
@@ -156,7 +157,7 @@ class Search extends Component {
                                         <Link key={book._id}
                                             to={{
                                                 pathname: `/search/${book._id}`,
-                                                state: { authors: book.authors, title: book.title, description: book.description }
+                                                state: { authors: book.authors, title: book.title, description: book.description, link: book.link }
                                             }}>
                                             <strong>
                                                 {book.title} by {book.authors}
@@ -164,7 +165,7 @@ class Search extends Component {
                                         </Link>
                                         <AddBtn onClick={() => this.addGoogleBook({
                                             username: this.props.username,
-                                            title: book.title,
+                                            title: book.title.replace(/" "/g, "+"),
                                             authors: book.authors[0],
                                             image: book.image,
                                             link: book.link,

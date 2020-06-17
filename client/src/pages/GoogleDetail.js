@@ -23,7 +23,8 @@ class GoogleDetail extends Component {
         book: {
             authors: this.props.location.state.authors,
             title: this.props.location.state.title,
-            description: this.props.location.state.description
+            description: this.props.location.state.description,
+            link: this.props.location.state.link
         },
     };
 
@@ -44,6 +45,7 @@ class GoogleDetail extends Component {
                     <Col size="md-10 md-offset-1">
                         <article style={{ color: "white" }}>
                             <h1 style={{ color: "white" }}>Description</h1>
+                            <a href={this.state.book.link} target="_blank">See Book Details on Google Books</a>
                             <p>
                                 {this.state.book.description}
                             </p>
@@ -52,7 +54,7 @@ class GoogleDetail extends Component {
                 </Row>
                 <Row>
                     <Col size="md-2">
-                        <Link to="/search">← Back to Titles and Authors</Link>
+                        <Link to="/search">← Back to Search Page</Link>
                     </Col>
                 </Row>
             </Container>
