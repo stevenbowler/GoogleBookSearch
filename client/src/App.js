@@ -16,7 +16,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Search from "./pages/Search";
-import Saved from "./pages/Saved";
 import Books from "./pages/Books";
 import Detail from "./pages/Detail";
 import GoogleDetail from "./pages/GoogleDetail";
@@ -30,12 +29,29 @@ import './App.css';
 import AppNavbar from './components/AppNavbar';
 import LoginRegisterModals from './components/LoginRegisterModals';
 import Modal from './components/ExtraModal';
+import io from 'socket.io-client';
 
-
+const socket = io();    // {transports: ['websocket']}
 
 // set background color below navbar
 //@ts-ignore
 document.body.style = 'background: black;';
+
+// Listening for messages from server socket handler
+socket.on("new message", data => {
+  console.log("received socket message", data.msg);
+});
+
+socket.on("user left", data => {
+  console.log("user left: ", data.msg);
+  sessionStorage.setItem("userCount", data.msg);
+});
+
+socket.on("user arrived", data => {
+  console.log("user arrived: ", data.msg);
+  sessionStorage.setItem("userCount", data.msg);
+});
+
 
 
 class App extends React.Component {
@@ -75,6 +91,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
+    this.userCount = sessionStorage.getItem("userCount");
+    // this.setState({ userCount: sessionStorage.getItem("userCount") });
     // this.setState({ name: sessionStorage.getItem("name") });
     // this.setState({ token: sessionStorage.getItem("token") });
     // this.setState({ email: sessionStorage.getItem("email") });
@@ -168,6 +186,7 @@ class App extends React.Component {
       ;
   }
 
+
   /**
    * @function handleLogin
    * @param {data} data
@@ -200,6 +219,7 @@ class App extends React.Component {
       this.handleToggleLoginModal();
       this.setState({ loggedIn: true });
       sessionStorage.setItem("loggedIn", "true");
+      socket.emit("send message", `${nameHandleLogin} just logged-in`);
     }
     axios
       .post(
@@ -281,6 +301,7 @@ class App extends React.Component {
             onToggle={this.handleToggleNavbar}
             onTutorial={this.handleTutorial}
             onChangeColor={this.handleChangeColor}
+            userCount={this.userCount}
           />
           <LoginRegisterModals
             isOpenLoginModal={this.state.isOpenLoginModal}
