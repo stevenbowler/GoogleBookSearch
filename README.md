@@ -1,7 +1,7 @@
 # GoogleBookSearch
 
 ### Overview
-Search For and Save Your Books With the Google Book Search.  
+Search For and Save Your Favorite Books With the Google Book Search.  
 
 ### Overview
 
@@ -14,7 +14,7 @@ This project has afforded this programmer the opportunity to gain experience in 
 
 ### User Documentation
 
-1. Watch the video tutorial by clicking [this link](https://drive.google.com/file/d/1pMIpAHzZumuAqCgBHyNImCm_faikkTYn/view). 
+1. Watch the video tutorial by clicking [this link](https://drive.google.com/file/d/1wVBNnRMtxBiZWRK1N6HnN_jfHKqf0L0i/view). 
 
 2. Click [here](https://googlerbooksearch.herokuapp.com/) to see the Google Book Search app.
 

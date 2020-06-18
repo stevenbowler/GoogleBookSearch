@@ -37,17 +37,24 @@ server.listen(PORT, function () {       // todo: uncomment if socket.io doesn't 
 });
 
 var connections = [];
+// window.sessionStorage.setItem("userCount", "1");
+// var globalVar;
 
 io.on('connection', socket => {
 
   connections.push(socket);
-  io.sockets.emit(`user arrived`, { msg: `${connections.length}` })
-  console.log("Connected: %s sockets connected", connections.length);
+  var userCount = `${connections.length}`;
+  // window.sessionStorage.setItem("userCount", userCount);
+  io.sockets.emit(`user arrived`, { msg: userCount })
+  console.log("Connected: %s sockets connected", userCount);
 
   socket.on("disconnect", data => {
     connections.splice(connections.indexOf(data));
-    io.sockets.emit("user left", { msg: `${connections.length}` });
-    console.log("Disconnected: %s sockets connected", connections.length);
+    var userCount = `${connections.length}`;
+    // globalVar.callback(data);
+    // window.sessionStorage.setItem("userCount", userCount);
+    io.sockets.emit("user left", { msg: userCount });
+    console.log("Disconnected: %s sockets connected", userCount);
   });
 
   socket.on('send message', data => {

@@ -31,26 +31,12 @@ import LoginRegisterModals from './components/LoginRegisterModals';
 import Modal from './components/ExtraModal';
 import io from 'socket.io-client';
 
-const socket = io();    // {transports: ['websocket']}
+const socket = io();    // {transports: ['websocket']}  didn't work, github solution for socket timeouts
 
 // set background color below navbar
 //@ts-ignore
 document.body.style = 'background: black;';
 
-// Listening for messages from server socket handler
-socket.on("new message", data => {
-  console.log("received socket message", data.msg);
-});
-
-socket.on("user left", data => {
-  console.log("user left: ", data.msg);
-  sessionStorage.setItem("userCount", data.msg);
-});
-
-socket.on("user arrived", data => {
-  console.log("user arrived: ", data.msg);
-  sessionStorage.setItem("userCount", data.msg);
-});
 
 
 
@@ -70,7 +56,9 @@ class App extends React.Component {
       isOpenRegisterModal: false,
       isOpenLeaderBoardModal: false,
       name: "Guest...Login",
-      loggedIn: false
+      loggedIn: false,
+      userCount: sessionStorage.getItem("userCount"),
+      navBarMessage: sessionStorage.getItem("navBarMessage")
     };
     // sessionStorage.setItem("name", this.state.name);
     // sessionStorage.setItem("token", this.state.token);
@@ -79,8 +67,9 @@ class App extends React.Component {
 
 
   // LIFECYCLE METHODS and related support functions
-
+  previousUserCount = "1";
   componentDidMount() {
+    this.setState({ userCount: sessionStorage.getItem("userCount") });
     if (sessionStorage["name"]) {
       console.log("app.js componentDidMount: ", this.state.name);
       this.setState({ name: sessionStorage.getItem("name") });
@@ -88,9 +77,32 @@ class App extends React.Component {
       this.setState({ email: sessionStorage.getItem("email") });
       this.setState({ loggedIn: (sessionStorage.getItem("loggedIn") === "true") ? true : false });
     } else console.log("sessionStorage.name doesn't exist");
+
+    // Listening for messages from server socket handler
+    socket.on("new message", data => {
+      console.log("received socket message", data.msg);
+      sessionStorage.setItem("navBarMessage", data.msg);
+      this.setState({ navBarMessage: sessionStorage.getItem("navBarMessage") });
+    });
+
+    socket.on("user left", data => {
+      console.log("user left: ", data.msg);
+      sessionStorage.setItem("userCount", data.msg);
+      this.setState({ userCount: sessionStorage.getItem("userCount") });
+    });
+
+    socket.on("user arrived", data => {
+      console.log("user arrived: ", data.msg);
+      sessionStorage.setItem("userCount", data.msg);
+      this.setState({ userCount: sessionStorage.getItem("userCount") });
+    });
   }
 
   componentDidUpdate() {
+    if (this.previousUserCount !== sessionStorage.getItem("userCount")) {
+      this.previousUserCount = sessionStorage.getItem("userCount");
+      this.setState({ userCount: sessionStorage.getItem("userCount") });
+    }
     this.userCount = sessionStorage.getItem("userCount");
     // this.setState({ userCount: sessionStorage.getItem("userCount") });
     // this.setState({ name: sessionStorage.getItem("name") });
@@ -247,12 +259,13 @@ class App extends React.Component {
   /**
    * handle the logout event
    * @function handleLogout
-   */
+ */
   handleLogout = () => {
     console.log(`logout: ${this.state.name}`);
     this.token = "";
     this.email = "";
     this.password = "";
+    socket.emit("send message", `${this.state.name} just logged-out`);
     sessionStorage.setItem("token", this.token);
     sessionStorage.setItem("email", this.email);
     this.setState({ name: "Guest...Login" }, () => sessionStorage.setItem("name", this.state.name));
@@ -301,7 +314,8 @@ class App extends React.Component {
             onToggle={this.handleToggleNavbar}
             onTutorial={this.handleTutorial}
             onChangeColor={this.handleChangeColor}
-            userCount={this.userCount}
+            userCount={this.state.userCount}
+            navBarMessage={this.state.navBarMessage}
           />
           <LoginRegisterModals
             isOpenLoginModal={this.state.isOpenLoginModal}
