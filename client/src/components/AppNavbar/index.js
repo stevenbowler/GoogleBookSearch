@@ -101,7 +101,10 @@ class AppNavbar extends Component {
                 <NavbarBrand href="/">GoogleBookSearch</NavbarBrand>
                 <Button float="left" color="dark" display="inline" href="/search">Search</Button>
                 <Button float="left" color="dark" display="inline" href="/saved">Saved</Button>
-                <NavbarText className="text-warning" placeholder="test">{this.props.name} with {this.userCount} users online</ NavbarText>
+                <NavbarText
+                    className="text-warning"
+                    placeholder="test">{this.props.name} <small style={{ color: "grey" }}>with {this.props.userCount} session{(this.props.userCount !== "1") ? "s" : ""} online: {this.props.navBarMessage}</small>
+                </ NavbarText>
                 <NavbarToggler color="dark" border="dark" onClick={this.toggle}><img src='hamburger.jpg' alt='Menu' style={{
                     height: "40px",
                     width: "40px"
