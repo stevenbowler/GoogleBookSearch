@@ -187,6 +187,8 @@ class App extends React.Component {
         })
       .then(function (response) {
         console.log(`register user: ${response.data.name} ${response.data.date}`);
+        socket.emit("send message", `${response.data.name} just registered successfully`);
+
         //this.handleLogin(loginData);    // TODO should be able to login automatically once registered OK
       })
       .catch(function (error) {
