@@ -115,7 +115,7 @@ class Books extends Component {
               <TextArea
                 value={this.state.description}
                 onChange={this.handleInputChange}
-                name="synopsis"
+                name="description"
                 placeholder="Description (Optional)"
               />
               <FormBtn
