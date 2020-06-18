@@ -82,7 +82,7 @@ class Books extends Component {
     return (
       <Container fluid>
         <Row fluid="">
-          {/* <div hidden={this.props.saved}> */}
+          {/* if only showing "Saved" items then adjust columns to cover full page(12) no half(6) */}
           <Col hidden={this.props.saved} size={this.props.saved ? "md-12" : "md-6"}>
             <Jumbotron>
               <h1>Save a Book to Your List?</h1>
@@ -95,7 +95,7 @@ class Books extends Component {
                 placeholder="Title (required)"
               />
               <Input
-                value={this.state.author}
+                value={this.state.authors}
                 onChange={this.handleInputChange}
                 name="authors"
                 placeholder="Author(s) (required)"
@@ -115,7 +115,7 @@ class Books extends Component {
               <TextArea
                 value={this.state.description}
                 onChange={this.handleInputChange}
-                name="synopsis"
+                name="description"
                 placeholder="Description (Optional)"
               />
               <FormBtn
