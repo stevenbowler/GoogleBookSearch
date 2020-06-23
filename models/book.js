@@ -27,6 +27,6 @@ const bookSchema = new Schema({
   date: { type: Date, default: Date.now }
 });
 
-const Book = mongoose.model("Book", bookSchema);
+const Book = mongoose.model("GoogleBook", bookSchema);
 
 module.exports = Book; 

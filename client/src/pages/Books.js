@@ -136,7 +136,7 @@ class Books extends Component {
                 {this.state.books.map(book => (
                   <ListItem key={book._id}>
                     <Link to={"/books/" + book._id}>
-                      <strong>
+                      <strong style={{ color: "black" }}>
                         {book.title} by {book.authors}
                       </strong>
                     </Link>

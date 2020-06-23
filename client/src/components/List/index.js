@@ -16,10 +16,10 @@ export function List({ children }) {
 
 /**@function ListItem */
 export function ListItem({ children }) {
-  return <li className="list-group-item" style={{ color: `rgb(${132}, ${31}, ${39})`, backgroundColor: `rgb(${132}, ${31}, ${39})` }}>{children}</li>;
+  return <li className="list-group-item list-style" style={{ color: `rgb(${132}, ${31}, ${39})`, backgroundColor: `rgb(${132}, ${31}, ${39})` }}>{children}</li>;
 }
 
 /**@function GoogleListItem */
 export function GoogleListItem({ children }) {
-  return <li className="list-group-item" style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, color: 'black' }}>{children}</li>;
+  return <li className="list-group-item list-style" id="list-style" style={{ backgroundColor: `rgb(${132}, ${31}, ${39})`, color: 'black' }}>{children}</li>;
 }

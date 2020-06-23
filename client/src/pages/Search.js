@@ -83,7 +83,9 @@ class Search extends Component {
         console.log("bookData: ", bookData);
         API.saveBook(bookData)
             // .then(res => this.loadBooks())
-            .then(res => console.log("addGoogleBook returned from user database: ", res))
+            .then(res => {
+                console.log("addGoogleBook returned from user database: ", res)
+            })
             .catch(err => console.log(err));
     };
 
@@ -159,7 +161,7 @@ class Search extends Component {
                                                 pathname: `/search/${book._id}`,
                                                 state: { authors: book.authors, title: book.title, description: book.description, link: book.link }
                                             }}>
-                                            <strong>
+                                            <strong style={{ color: "black" }}>
                                                 {book.title} by {book.authors}
                                             </strong>
                                         </Link>
