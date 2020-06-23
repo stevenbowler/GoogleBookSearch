@@ -37,7 +37,7 @@ class LoginRegisterModals extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log("LoginModal.js handleSubmit logging in with: ", event.target.email.value);
+        // console.log("LoginModal.js handleSubmit logging in with: ", event.target.email.value);
         const data = {
             name: event.target.name.value,
             email: event.target.email.value,
@@ -51,7 +51,7 @@ class LoginRegisterModals extends Component {
             event.preventDefault();         // TODO register modal stays open with this
         }
         else if (this.validEmail && this.validPassword && this.props.isOpenLoginModal) {
-            console.log("handleSubmit Login with email: " + event.target.email.value + "password: " + event.target.password.value);
+            // console.log("handleSubmit Login with email: " + event.target.email.value + "password: " + event.target.password.value);
             this.props.onLogin({ email: event.target.email.value, password: event.target.password.value });
             this.validEmail = false;
             this.validPassword = false;
