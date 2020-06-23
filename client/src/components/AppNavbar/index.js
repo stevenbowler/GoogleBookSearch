@@ -99,8 +99,6 @@ class AppNavbar extends Component {
             <Navbar color="dark" expand="md" className="mb-5 sticky-top">
                 {/* <Container> */}
                 <NavbarBrand href="/">GoogleBookSearch</NavbarBrand>
-                <Button float="left" color="dark" display="inline" href="/search">Search</Button>
-                <Button float="left" color="dark" display="inline" href="/saved">Saved</Button>
                 <NavbarText
                     className="text-warning"
                     placeholder="test">{this.props.name} <small style={{ color: "grey" }}>with {this.props.userCount} session{(this.props.userCount !== "1") ? "s" : ""} online: {this.props.navBarMessage}</small>
@@ -114,12 +112,11 @@ class AppNavbar extends Component {
                         <Button color="dark" hidden={this.props.loggedIn ? true : false} float="left" display="inline" onClick={this.register}>Register</Button>
                         <Button color="dark" hidden={this.props.loggedIn ? true : false} float="left" display="inline" onClick={this.login}>Login</Button>
                         <Button color="dark" hidden={this.props.loggedIn ? false : true} float="left" display="inline" onClick={this.logout}>Logout</Button>
-                        <Button color="dark" hidden={this.props.loggedIn ? false : true} float="left" display="inline" onClick={this.leaderBoard}>Modal</Button>
+                        <Button float="left" color="dark" display="inline" href="/search">Search</Button>
+                        <Button float="left" color="dark" display="inline" href="/saved">Saved</Button>
                         <Button color="dark" hidden={this.props.loggedIn ? true : false} float="left" display="inline" onClick={this.tutorial}>Tutorial</Button>
-                        {/* <Button float="left" display="inline" onClick={this.unused}>Unused</Button> */}
-                        {/* <Button float="left" type="color" display="inline" onClick={this.changeColor}>Color</Button> */}
                         <NavItem>
-                            <NavLink display="inline" color="white" href="https://github.com/stevenbowler/GoogleBookSearch">GitHub</NavLink>
+                            <NavLink display="inline" color="dark" href="https://github.com/stevenbowler/GoogleBookSearch">GitHub</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
