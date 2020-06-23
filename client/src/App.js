@@ -45,10 +45,7 @@ class App extends React.Component {
     super(props);
 
     this.loggedIn = false;
-    this.token = "";
     this.name = "";
-    this.email = "";
-    this.password = "";
     this.timerOn = false;
     this.state = {
       isOpenNavBar: false,
@@ -168,15 +165,13 @@ class App extends React.Component {
    */
 
   /**
-   * called from LoginRegisterModals component to handle registration request attribute changes
+   * called from LoginRegisterModals component to handle registration and login if successful register
    * @function handleRegister
    * @param {data} data 
    * */
   handleRegister = (data) => {
     // console.log("App.js handleRegister input name: " + data.name + "email: " + data.email + "password: " + data.password);
-    var finishRegister = () => {
-      this.handleToggleLoginRegisterModal();
-    }
+
     axios
       .post(
         '/api/users/register',
@@ -185,19 +180,39 @@ class App extends React.Component {
           email: data.email,
           password: data.password
         })
-      .then(function (response) {
+      .then(response => {
         console.log(`register user: ${response.data.name} ${response.data.date}`);
-        socket.emit("send message", `${response.data.name} just registered successfully`);
+        axios
+          .post(
+            '/api/users/login',
+            {
+              email: data.email,
+              password: data.password
+            })
+          .then(response => {
+            console.log(`login user: ${response.data.user.name}`);
+            sessionStorage.setItem("token", response.data.token);
+            sessionStorage.setItem("email", data.email);
+            sessionStorage.setItem("name", response.data.user.name);
+            sessionStorage.setItem("loggedIn", "true");
 
-        //this.handleLogin(loginData);    // TODO should be able to login automatically once registered OK
+            this.setState({ token: response.data.token });
+            this.setState({ email: data.email });
+            this.setState({ name: response.data.user.name }); // will display name on Navbar
+            this.setState({ loggedIn: true });
+
+            socket.emit("send message", `${response.data.user.name} just registered and logged-in`);
+          })
+          .catch(function (error) {
+            console.log("Error App.js handleLogin: ", error);
+            this.setState({ name: "wrong email or pswd" }); // will display error message on Navbar
+          });
+        this.handleToggleLoginRegisterModal();
       })
-      .catch(function (error) {
+      .catch(error => {
         console.log(" Could not register from App.js: " + error.message);
-      })
-      .finally(function () {
-        finishRegister();
-      })
-      ;
+        this.handleToggleLoginRegisterModal();
+      });
   }
 
 
@@ -207,32 +222,7 @@ class App extends React.Component {
    */
   handleLogin = (data) => {
     // console.log("APp.js handleLogin data:", data);
-    var tokenHandleLogin = "";
-    var nameHandleLogin = "";
-    var loginError = "";
-    const finishLogin = () => {
-      if (loginError) {
-        console.log("Made it to error report handleLogin finishLogin");
-        this.setState({ name: "wrong email or pswd" }); // will display error message on Navbar
-        this.handleToggleLoginModal();
-        return;
-      }
-      this.token = tokenHandleLogin;
-      sessionStorage.setItem("token", tokenHandleLogin);
-      this.setState({ token: tokenHandleLogin });
 
-      this.email = data.email;
-      sessionStorage.setItem("email", this.email);
-      this.setState({ email: this.email });
-
-      this.password = data.password;
-      sessionStorage.setItem("name", nameHandleLogin);
-      this.setState({ name: nameHandleLogin }); // will display name on Navbar
-      this.handleToggleLoginModal();
-      this.setState({ loggedIn: true });
-      sessionStorage.setItem("loggedIn", "true");
-      socket.emit("send message", `${nameHandleLogin} just logged-in`);
-    }
     axios
       .post(
         '/api/users/login',
@@ -240,18 +230,25 @@ class App extends React.Component {
           email: data.email,
           password: data.password
         })
-      .then(function (response) {
-        // console.log(`login user: ${response.data.user.name}`);
-        tokenHandleLogin = response.data.token;
-        nameHandleLogin = response.data.user.name;
+      .then(response => {
+        console.log(`login user: ${response.data.user.name}`);
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("email", data.email);
+        sessionStorage.setItem("name", response.data.user.name);
+        sessionStorage.setItem("loggedIn", "true");
+
+        this.setState({ token: response.data.token });
+        this.setState({ email: data.email });
+        this.setState({ name: response.data.user.name }); // will display name on Navbar
+        this.setState({ loggedIn: true });
+
+        this.handleToggleLoginModal();
+        socket.emit("send message", `${response.data.user.name} just logged-in`);
       })
       .catch(function (error) {
-        //console.log("Steve Output, could not login from App.js: " + error);
-        loginError = error;
-        console.log("Error, could not login from App.js: ", loginError);
-      })
-      .finally(function () {
-        finishLogin();
+        console.log("Error App.js handleLogin: ", error);
+        this.setState({ name: "wrong email or pswd" }); // will display error message on Navbar
+        this.handleToggleLoginModal();
       });
   }
 
@@ -261,12 +258,9 @@ class App extends React.Component {
  */
   handleLogout = () => {
     console.log(`logout: ${this.state.name}`);
-    this.token = "";
-    this.email = "";
-    this.password = "";
     socket.emit("send message", `${this.state.name} just logged-out`);
-    sessionStorage.setItem("token", this.token);
-    sessionStorage.setItem("email", this.email);
+    sessionStorage.setItem("token", "");
+    sessionStorage.setItem("email", "");
     this.setState({ name: "Guest...Login" }, () => sessionStorage.setItem("name", this.state.name));
     this.setState({ loggedIn: false });
     sessionStorage.setItem("loggedIn", "false");   // TODO this may be needed:
