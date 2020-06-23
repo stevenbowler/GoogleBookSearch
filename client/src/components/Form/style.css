@@ -2,7 +2,7 @@ input {
   color: black;
 }
 
-#input1,#input2 {
+.inputStyle,#input1,#input2 {
   color:black;
 }
 

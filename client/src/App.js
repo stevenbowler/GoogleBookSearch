@@ -206,7 +206,7 @@ class App extends React.Component {
    * @param {data} data
    */
   handleLogin = (data) => {
-    console.log("APp.js handleLogin data:", data);
+    // console.log("APp.js handleLogin data:", data);
     var tokenHandleLogin = "";
     var nameHandleLogin = "";
     var loginError = "";
@@ -217,12 +217,10 @@ class App extends React.Component {
         this.handleToggleLoginModal();
         return;
       }
-      console.log("finishLogin nameHandleLogin: ", nameHandleLogin);
       this.token = tokenHandleLogin;
       sessionStorage.setItem("token", tokenHandleLogin);
       this.setState({ token: tokenHandleLogin });
 
-      // console.log("handleLogin this.token = tokenHandleLogin" + this.token);
       this.email = data.email;
       sessionStorage.setItem("email", this.email);
       this.setState({ email: this.email });
@@ -243,10 +241,9 @@ class App extends React.Component {
           password: data.password
         })
       .then(function (response) {
-        console.log(`login user: ${response.data.user.name}`);
+        // console.log(`login user: ${response.data.user.name}`);
         tokenHandleLogin = response.data.token;
         nameHandleLogin = response.data.user.name;
-        // console.log("app.js handleLogin tokenHandleLogin: " + tokenHandleLogin);
       })
       .catch(function (error) {
         //console.log("Steve Output, could not login from App.js: " + error);
